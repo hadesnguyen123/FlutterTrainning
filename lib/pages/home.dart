@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  AppBar appBar(){
+  AppBar appBar() {
     return AppBar(
         title: Text(
           'Hoang Store',
@@ -44,16 +44,13 @@ class HomePage extends StatelessWidget {
                 width: 37,
                 decoration: BoxDecoration(
                     color: const Color(0xffF7F8F8),
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                    borderRadius: BorderRadius.circular(10)),
                 child: SvgPicture.asset(
                   'assets/icons/dots.svg',
                   height: 5,
                   width: 5,
                 ),
-              )
-          )
-        ]
-    );
+              ))
+        ]);
   }
 }
