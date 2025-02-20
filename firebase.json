@@ -1,0 +1,22 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "flutter-chatting-app-4e27b",
+          "appId": "1:354653914173:android:760eaf8fbe6e81d1a15654",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "flutter-chatting-app-4e27b",
+          "configurations": {
+            "android": "1:354653914173:android:760eaf8fbe6e81d1a15654",
+            "web": "1:354653914173:web:5e2c527ab4b9f4a2a15654"
+          }
+        }
+      }
+    }
+  }
+}
