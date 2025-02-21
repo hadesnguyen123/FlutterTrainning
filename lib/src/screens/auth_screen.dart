@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/src/screens/chat_screen.dart';
 import 'package:first_app/src/screens/chatlist_screen.dart';
@@ -20,27 +22,32 @@ class _AuthScreenState extends State<AuthScreen> {
   var _enteredEmail = '';
   var _enteredPassword = '';
 
-  void _submit() async {
+  Future<void> _submit() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
     }
     _formKey.currentState!.save();
 
-    if (_isLogin) {
-    } else {
-      try {
+    try {
+      if (_isLogin) {
+        final userCredentials = await _firebase.signInWithEmailAndPassword(
+            email: _enteredEmail, password: _enteredPassword);
+
+      } else {
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
-        print(userCredentials);
-      } on FirebaseAuthException catch (error) {
-        if (error.code == 'email-already-in-use') {}
-        if (error.code == 'invalid-email') {}
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(error.message ?? 'Authentication failed.'),
-        ));
       }
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (error.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(error.message ?? 'Authentication failed.'),
+      ));
     }
   }
 
@@ -54,6 +61,7 @@ class _AuthScreenState extends State<AuthScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
+
       ),
       backgroundColor: Colors.white, // Đặt nền trắng
       body: SingleChildScrollView(
@@ -179,7 +187,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 10),
                     Center(
                       child: TextButton(
                           onPressed: () {
@@ -203,8 +211,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  ChatListScreen()),
+                              builder: (context) => ChatListScreen()),
                         );
                       },
                       child: Text('Home'),

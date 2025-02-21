@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/src/data/dummy_data.dart';
 import 'package:first_app/src/screens/chat_screen.dart';
+import 'package:first_app/src/screens/start_screen.dart';
 import 'package:flutter/material.dart';
 
 class ChatListScreen extends StatefulWidget {
-  ChatListScreen({super.key});
+  const ChatListScreen({super.key});
 
   @override
   State<ChatListScreen> createState() {
@@ -29,10 +31,26 @@ class _ChatListScreenState extends State<ChatListScreen> {
           'Home',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout_outlined,color: Colors.white,), // Icon video call
+            onPressed: () {FirebaseAuth.instance.signOut();},
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout_outlined,color: Colors.white,), // Icon video call
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => StartScreen()), // Điều hướng đến StartScreen
+              );
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
               height: 50,
